@@ -2,7 +2,7 @@
 
 (function() {
 	const url = "http://api.openweathermap.org/data/2.5/weather?q=";
-	const apiKey = "f3a9817d1b4b1f6c7437b0b67aa51394"; // Replace "APIKEY" with your own API key; otherwise, your HTTP request will not work
+	const apiKey = "APIKEY"; // Replace "APIKEY" with your own API key; otherwise, your HTTP request will not work
 	const activities = {
 		teamIn: ['basketball','hockey','volleyball'],
 		teamOutWarm: ['softball/baseball','football/soccer','American football','rowing','tennis','volleyball','ultimate frisbee','rugby'],
@@ -20,8 +20,15 @@
 		e.preventDefault();
 //		const location = $('#location').val();
 		const location = document.querySelector('#location').value;
-
+//		$('#location').val('');
 		document.querySelector('#location').value = '';
+/*
+		$.get(url + location + '&appid=' + apiKey).done(function(response) {
+			updateUISuccess(response);
+		}).fail(function() {
+			updateUIFailure();
+		});
+*/
 
 		fetch(url + location + '&appid=' + apiKey).then(function(response) {
 			return(response.json());
@@ -74,7 +81,8 @@
 		cityPara.setAttribute('class','city');
 		cityPara.textContent = state.city;
 		let conditionsPara = document.createElement('p');
-		conditionsPara.textContent = `${state.degCInt}\u00B0 C / ${state.degFInt} \u00B0 F`;
+		//		conditionsPara.textContent = state.degCInt + '\u00B0 C / ' + state.degFInt + '\u00B0 F';
+		conditionsPara.textContent = `${state.degCInt}\u00B0 C / ${state.degFInt}\u00B0 F`;
 		let iconImage = document.createElement('img');
 		iconImage.setAttribute('src', state.icon);
 		iconImage.setAttribute('alt', state.condition);
@@ -171,11 +179,13 @@
 			into.appendChild(activitiesContainer);
 		}
 
+//		$('.results').slideDown(300);
 		document.querySelector('.results').classList.add('open');
 	}
 
 	// handle ajax failure
 	function updateUIFailure() {
+//		$(".conditions").text("Weather information unavailable");
 		document.querySelector(".conditions").textContent = "Weather information unavailable";
 	}
 })();
